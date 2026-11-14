@@ -1,0 +1,40 @@
+# Go
+control-plane/bin/
+*.exe
+*.test
+*.out
+vendor/
+
+# Rust
+token-service/target/
+**/*.rs.bk
+Cargo.lock.bak
+
+# Node (if TUI or tooling ends up using it)
+node_modules/
+
+# Secrets / local env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+!examples/**/*.key
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Container / compose
+*.local.yml
+*.local.yaml
+
+# RabbitMQ runtime artifacts (if run outside containers)
+erl_crash.dump
+
+# Build artifacts
+dist/
+build/
+*.log

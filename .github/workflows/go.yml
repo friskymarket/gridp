@@ -1,0 +1,27 @@
+name: Go
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "control-plane/**"
+      - ".github/workflows/go.yml"
+  pull_request:
+    paths:
+      - "control-plane/**"
+      - ".github/workflows/go.yml"
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: control-plane
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: control-plane/go.mod
+      - run: go vet ./...
+      - run: go build ./...
+      - run: go test ./... -race -cover

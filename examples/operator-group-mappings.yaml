@@ -1,0 +1,36 @@
+# Operator group → role mappings
+#
+# Maps an operator directory's groups (LDAP DN or Azure Entra group object
+# ID) to grIdp platform roles, scoped per realm. This file is the only
+# source of truth for operator authorization — group membership alone
+# grants nothing without an explicit binding here (deny by default).
+#
+# `directory` identifies which configured OperatorDirectory adapter this
+# mapping applies to, since a deployment could have more than one (e.g.
+# migrating from LDAP to Entra).
+
+apiVersion: gridp.io/v1
+kind: OperatorGroupMapping
+metadata:
+  name: operator-group-mappings
+
+mappings:
+  - directory: corp-ldap
+    group: "cn=gridp-admins,ou=groups,dc=corp,dc=example"
+    realm: engineering
+    role: admin
+
+  - directory: corp-ldap
+    group: "cn=gridp-viewers,ou=groups,dc=corp,dc=example"
+    realm: engineering
+    role: realm-viewer
+
+  - directory: corp-entra
+    group: "11111111-2222-3333-4444-555555555555"
+    realm: "*"              # explicit wildcard: all realms, not implicit
+    role: admin
+
+  - directory: corp-entra
+    group: "66666666-7777-8888-9999-000000000000"
+    realm: payments
+    role: self-service

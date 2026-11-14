@@ -1,0 +1,14 @@
+// Placeholder for the realm management gRPC service.
+//
+// See proto/README.md and docs/ADR/0007-grpc-internal-api.md.
+
+syntax = "proto3";
+
+package gridp.v1;
+
+option go_package = "github.com/friskymarkets/gridp/control-plane/internal/grpcapi/gridpv1";
+
+service RealmService {
+  // TODO: define RPCs (ListRealms, GetRealm, etc.) once the realm
+  // domain model and GitOps file schema are finalized.
+}

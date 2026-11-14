@@ -1,0 +1,83 @@
+{
+  "rabbit_version": "3.13.7",
+  "rabbitmq_version": "3.13.7",
+  "users": [
+    {
+      "name": "guest",
+      "password_hash": "MoSB+i2GEgFxKeoM1U6R5ZP2fcl/QWlP3RSbe+TXI0nyqyJ6",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": ["administrator"]
+    },
+    {
+      "name": "grIdp",
+      "password_hash": "iZFyIcv3E2HcMy9MGri60jy1uxUft+ZDArQffzjyEytHfHxd",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": ["administrator"]
+    }
+  ],
+  "vhosts": [
+    { "name": "/" },
+    { "name": "my-vhost" },
+    { "name": "grIdp" }
+  ],
+  "permissions": [
+    {
+      "user": "guest",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "guest",
+      "vhost": "my-vhost",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "grIdp",
+      "vhost": "grIdp",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+],
+  "queues": [
+    {
+      "name": "my-queue",
+      "vhost": "my-vhost",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "grIdp-pusub",
+      "vhost": "grIdp",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "my-exchange",
+      "vhost": "my-vhost",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "my-exchange",
+      "vhost": "my-vhost",
+      "destination": "my-queue",
+      "destination_type": "queue",
+      "routing_key": "my.routing.key",
+      "arguments": {}
+    }
+  ]
+}

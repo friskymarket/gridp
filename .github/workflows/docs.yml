@@ -1,0 +1,36 @@
+name: Docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "examples/**"
+      - "**.md"
+  pull_request:
+    paths:
+      - "docs/**"
+      - "examples/**"
+      - "**.md"
+
+jobs:
+  validate-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: pip install pyyaml
+      - name: Validate YAML/JSON examples parse
+        run: |
+          set -e
+          shopt -s globstar nullglob
+          for f in examples/**/*.yaml examples/**/*.yml; do
+            echo "Checking $f"
+            python3 -c "import sys, yaml; yaml.safe_load(open(sys.argv[1]))" "$f"
+          done
+          for f in examples/**/*.json; do
+            echo "Checking $f"
+            python3 -c "import sys, json; json.load(open(sys.argv[1]))" "$f"
+          done
